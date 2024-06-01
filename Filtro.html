@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filter</title>
+    <script src="data.js"></script>
+</head>
+<body>
+    <div>
+        <input type="text" id="txtBusqueda" placeholder="Ingrese busqueda..." onkeyup="ProcesarBusqueda(event);" />
+    </div>
+
+
+    <div id="facturero">
+
+    </div>
+
+    <script>
+    const limite = 20;
+    const facturas = data.map(item => {
+        let container = {};
+        let time = new Date().getTime(); // Tiempo numerico
+        let monto = (Math.random() * 100 ).toFixed(2);
+        let tax = (monto * 0.15).toFixed(2);
+
+        container.id = time;
+        container.name = item.name;
+        container.city = item.city;
+        container.email = item.email;
+        container.amount = monto;
+        container.taxes = tax;
+        return container;
+    });
+    var ProcesarBusqueda = function(event){
+        if(event.keyCode == 13){
+            var criterio = document.getElementById('txtBusqueda').value;
+            var resultado = facturas.filter(item => {
+                if (item.name.includes(criterio) == true)
+                {
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            });
+            GraficarFacturas(resultado);
+        }
+    }
+    var GraficarFacturas = function(facturas){
+        document.getElementById('facturero').innerHTML = "";
+        for(var i = 0; i< limite; i++ ){
+            let tmp = facturas[i];
+            let content = `<div>
+                A nombre de: ${tmp.name}
+                <br/>
+                Monto: ${tmp.amount}
+                </div>
+            `;
+            let div = document.createElement('div');
+            div.innerHTML = content;
+            document.getElementById('facturero').appendChild(div);
+        }
+    }
+
+    GraficarFacturas(facturas); // Por defecto mando a graficas las primeras 20 facturas
+
+    </script>
+    
+</body>
+</html>
