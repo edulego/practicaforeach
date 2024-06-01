@@ -8,7 +8,11 @@
 </head>
 <body>
     <div>
-        <input type="text" id="txtBusqueda" placeholder="Ingrese busqueda..." onkeyup="ProcesarBusqueda(event);" />
+        <input type="text" id="txtBusqueda" placeholder="Ingrese busqueda..." onkeyup="ProcesarBusquedaPorNombre(event);" />
+
+        <br/>
+        <input type="text" id="txtBusquedaCiudad" placeholder="Ingrese ciudad..." onkeyup="ProcesarBusquedaPorCiudad(event);" />
+
     </div>
 
 
@@ -17,7 +21,7 @@
     </div>
 
     <script>
-    const limite = 20;
+    var limite = 20;
     const facturas = data.map(item => {
         let container = {};
         let time = new Date().getTime(); // Tiempo numerico
@@ -26,13 +30,13 @@
 
         container.id = time;
         container.name = item.name;
-        container.city = item.city;
+        container.city = item.city ? item.city : "Ninguna"; // IF CORTO (Operador Ternario)
         container.email = item.email;
         container.amount = monto;
         container.taxes = tax;
         return container;
     });
-    var ProcesarBusqueda = function(event){
+    var ProcesarBusquedaPorNombre = function(event){
         if(event.keyCode == 13){
             var criterio = document.getElementById('txtBusqueda').value;
             var resultado = facturas.filter(item => {
@@ -47,14 +51,26 @@
             GraficarFacturas(resultado);
         }
     }
+    var ProcesarBusquedaPorCiudad = function(event){
+        if(event.keyCode == 13){
+            var criterio = document.getElementById('txtBusquedaCiudad').value;
+            var resultado = facturas.filter(item => item.city.includes(criterio));
+            GraficarFacturas(resultado);
+        }
+    }
     var GraficarFacturas = function(facturas){
+        let limitetemporal = limite;
+        if(facturas.length < limite)
+            limitetemporal = facturas.length; // Pongo un nuevo limite
         document.getElementById('facturero').innerHTML = "";
-        for(var i = 0; i< limite; i++ ){
+        for(var i = 0; i< limitetemporal; i++ ){
             let tmp = facturas[i];
             let content = `<div>
                 A nombre de: ${tmp.name}
                 <br/>
                 Monto: ${tmp.amount}
+                <br/>
+                Ciudad: ${tmp.city}
                 </div>
             `;
             let div = document.createElement('div');
