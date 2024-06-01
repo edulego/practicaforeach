@@ -5,12 +5,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tamaño de letra</title>
+    <title>ForEach</title>
 	<script src="data.js"></script>
 </head>
 <body>
+    <div id="div1"></div>
 
     <script>
+
+        /*
+                console.log(data[0].name);
+
+                data.forEach(element => {
+                    console.log(`${element.email}`);
+                });
+        */
+        /*var data2 = data.map( nombre => (nombre.name).toUpperCase() );
+        console.log(data2);
+
+        // Array respuesta solo con los resutados
+        var data4 = data.filter(nombre => nombre.email == null);
+        console.log(data4);*/
+
+        var data2 = data.map( item => {
+            const container = {}
+            container.name = item.name;
+            container.value = 0;
+            return container;
+        });
+        console.log(data2);
 
     </script>
 
