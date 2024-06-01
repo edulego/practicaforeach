@@ -10,33 +10,43 @@
     
     <script>
 
-        /*
-        const numeros = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+    /*
+    const numeros = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-        console.lsog(numeros);
-        
-        const resultado = numeros.map( numero => numero * 2 );
+    console.lsog(numeros);
+    
+    const resultado = numeros.map( numero => numero * 2 );
 
-        console.log(resultado);
-        */
+    console.log(resultado);
+    */
 
-        const facturas = data.map(item => {
-            let container = {};
-            let time = new Date().getTime(); // Tiempo numerico
+    const facturas = data.map(item => {
+        let container = {};
+        let time = new Date().getTime(); // Tiempo numerico
+        let monto = (Math.random() * 100 ).toFixed(2);
+        let tax = (monto * 0.15).toFixed(2);
 
-            container.id = time;
-            container.name = item.name;
-            container.city = item.city;
-            container.email = item.email;
-            container.amount = 0.0;
-            return container;
-        });
+        container.id = time;
+        container.name = item.name;
+        container.city = item.city;
+        container.email = item.email;
+        container.amount = monto;
+        container.taxes = tax;
+        return container;
+    });
 
-        console.log(facturas[0]);
-        
+    console.log(facturas[0]);
+    // console.log(facturas[1]);
 
+    const totales = facturas.map(item => item.amount); // Nuevo array con solo totales
 
+    const reducer = (previousValue, currentValue) => parseFloat(previousValue) + parseFloat(currentValue);
 
+    const reducer2 = (p, c) => parseFloat(p) + parseFloat(c);
+    
+    // console.log(totales);
+    let montototal = totales.reduce(reducer);
+    console.log(`Monto total: ${montototal}`);
     </script>
 
 </body>
